@@ -1,7 +1,5 @@
 const faker = require("@faker-js/faker");
-const { Database } = require("./database/client");
-
-const db = new Database();
+const { db } = require("./database/client");
 
 const insertRoles = async () => {
   const roles = ["Admin", "User", "Guest"];

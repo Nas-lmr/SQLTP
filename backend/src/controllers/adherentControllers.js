@@ -24,7 +24,7 @@ const getAllAdherents = (req, res) => {
 
 // get one user by id
 
-getAdherentById = (req, res) => {
+const getAdherentById = (req, res) => {
   const id = parseInt(req.params.id);
 
   Adherent.read(id)
