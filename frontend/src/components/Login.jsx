@@ -7,8 +7,8 @@ function Login() {
     email: "",
     password: "",
   });
-  const { dispatch } = UseAuthContext();
-
+  const { dispatch,authUser } = UseAuthContext();
+console.log(authUser && authUser.user)
   const handleChange = (e) => {
     setLogin((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
