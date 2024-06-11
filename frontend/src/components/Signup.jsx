@@ -8,7 +8,7 @@ function Signup() {
     adherent_id: "",
   });
   const { authUser } = UseAuthContext();
-  console.log(authUser.user.userRole);
+  console.log(authUser && authUser.user.userRole);
   const handleChange = (e) => {
     setSignup((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
