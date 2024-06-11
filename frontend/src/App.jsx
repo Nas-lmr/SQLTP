@@ -1,13 +1,10 @@
-import { Outlet } from "react-router-dom";
+
 import "./App.css";
-import Navbar from "./components/Navbar";
+import LoginPage from "./pages/LoginPage";
+
 function App() {
-  return (
-    <div className="main">
-      <Navbar />
-      <Outlet />
-    </div>
-  );
+  return <LoginPage />;
+
 }
 
 export default App;

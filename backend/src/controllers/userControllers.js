@@ -38,8 +38,8 @@ const getUserById = (req, res) => {
 /* create a user  */
 
 const createUser = (req, res) => {
-  const { email, password, adherent_id } = req.body;
-  User.create({ email, password, adherent_id })
+  const { email, password} = req.body;
+  User.create({ email, password})
     .then((user) => {
       res.json({ user });
     })

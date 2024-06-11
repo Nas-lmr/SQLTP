@@ -1,59 +1,46 @@
-import { createRoot } from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import App from "./App.jsx";
-import Signup from "./components/Signup.jsx";
-import Login from "./components/Login";
-import Home from "./components/Home.jsx";
-import Dashboard from "./components/admin/Dashboard.jsx";
-import Pret from "./components/admin/Pret.jsx";
-/* context  */
-import { AuthContextProvider } from "./components/contex/userContex.jsx";
-import UseAuthContext from "./components/contex/useContext.jsx";
+
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { UserContextProvider } from "./contexts/userContext.jsx";
 import "./index.css";
+import LoginPage from "./pages/LoginPage.jsx";
 
-// private fontion
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import AdminDashboard from "./pages/AdminDashboard.jsx";
+import HomePage from "./pages/HomePage.jsx";
+import RegisterPage from "./pages/RegisterPage.jsx";
+import TestPage from "./pages/TestPage.jsx";
 
-const UserFunction = () => {
-  const { authUser } = UseAuthContext();
-
-  if (authUser?.user?.userRole === "Admin") {
-    return <Dashboard />;
-  } else {
-    return <Home />;
-  }
-};
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
-    children: [
-      {
-        path: "/",
-        element: <Home />,
-      },
-      {
-        path: "signup",
-        element: <Signup />,
-      },
-      {
-        path: "login",
-        element: <Login />,
-      },
-    ],
+    element: <LoginPage />,
   },
   {
-    path: "dashboard",
-    element: <UserFunction />,
+    path: "/home",
+    element: <HomePage />,
   },
   {
-    path: "pret",
-    element: <Pret />,
+    path: "/register",
+    element: <RegisterPage />,
+  },
+  {
+    path: "/administration",
+    element: <AdminDashboard />,
+  },
+  {
+    path: "/ouvrages",
+    element: <TestPage />,
   },
 ]);
 
-const root = createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById("root"));
+
 root.render(
-  <AuthContextProvider>
-    <RouterProvider router={router} />
-  </AuthContextProvider>
+  <React.StrictMode>
+    <UserContextProvider>
+      <RouterProvider router={router} />
+    </UserContextProvider>
+  </React.StrictMode>
+
 );

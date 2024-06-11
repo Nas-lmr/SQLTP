@@ -1,3 +1,5 @@
+const bcrypt = require("bcrypt");
+
 class AdherentModel {
   constructor(db) {
     this.connection = db.connection;
@@ -6,14 +8,29 @@ class AdherentModel {
   /* create a user  */
   create(adherent) {
     return new Promise((resolve, reject) => {
-      const query = `INSERT INTO adherent (firstname, lastname, role_id) VALUES (?, ?, ?)`;
-      const values = [adherent.firstname, adherent.lastname, adherent.role_id];
-      this.connection.execute(query, values, (error, result) => {
-        if (error) {
-          return reject(error);
-        }
-        resolve(result);
-      });
+      bcrypt
+        .hash(adherent.password, 10)
+        .then((passwordhash) => {
+          const query = `INSERT INTO adherent  (firstname, lastname, email, password) VALUES (?, ?, ?, ?)`;
+          this.connection.execute(
+            query,
+            [
+              adherent.firstname,
+              adherent.lastname,
+              adherent.email,
+              passwordhash,
+            ],
+            (error, result) => {
+              if (error) {
+                return reject(error);
+              }
+              resolve(result);
+            }
+          );
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
   }
 
@@ -46,10 +63,47 @@ class AdherentModel {
     });
   }
 
+  login(email, password) {
+    return new Promise((resolve, reject) => {
+      const query = `SELECT  email, password, role.role_name FROM adherent
+      JOIN role ON adherent.role_id=role.id
+      WHERE email = ? `;
+      const values = [email];
+
+      this.connection.execute(query, values, (error, result) => {
+        if (error) {
+          return reject(error);
+        }
+
+        if (result.length === 0) {
+          return reject(new Error("User not found"));
+        }
+
+        const adherent = result[0];
+        bcrypt.compare(password, adherent.password, (err, passwordMatch) => {
+          if (err) {
+            return reject(err);
+          }
+
+          if (!passwordMatch) {
+            return reject(new Error("Incorrect password"));
+          }
+          resolve({
+            adherent: {
+              adherentEmail: adherent.email,
+              adherentId: adherent.id,
+              adherentRole: adherent.role_name,
+            },
+          });
+        });
+      });
+    });
+  }
+
   /* update a user */
   update(firstname, lastname, role_id, id) {
     return new Promise((resolve, reject) => {
-      const query = `UPDATE adherent SET firstname =?,lastname=?, role_id =? WHERE id =?`;
+      const query = `UPDATE adherent SET firstname =?,lastname=?, email=?, password=? WHERE id =?`;
       const values = [firstname, lastname, role_id, id];
       this.connection.execute(query, values, (error, result) => {
         if (error) {
@@ -75,45 +129,6 @@ class AdherentModel {
       });
     });
   }
-
-  /* requêtes filtrées */
-
-  readfiltred() {
-    return new Promise((resolve, reject) => {
-      const query = ` SELECT ouvrage.title , ouvrage.language, 
-        category.level,category.discipline
-        FROM ouvrage 
-        JOIN category ON ouvrage.category_id = category.id
-        WHERE level = "Beginner" AND discipline  = "History" AND language = "French"`;
-      this.connection.execute(query, (error, result) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(result);
-        }
-      });
-    });
-  }
-
-  /* filtred ouvrage byid  */
-
-  readfiltredById(id) {
-    return new Promise((resolve, reject) => {
-      const query = ` SELECT ouvrage.title , ouvrage.language, 
-      category.level,category.discipline
-      FROM ouvrage 
-      JOIN category ON ouvrage.category_id = category.id
-      WHERE ouvrage.id = ? `;
-      const values = [id];
-      this.connection.execute(query, values, (error, result) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(result);
-        }
-      });
-    });
-  }
 }
 
-module.exports = {AdherentModel };
+module.exports = { AdherentModel };

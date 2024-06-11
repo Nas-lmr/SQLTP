@@ -2,16 +2,21 @@ const faker = require("@faker-js/faker");
 const { db } = require("./database/client");
 
 const insertRoles = (callback) => {
-  const roles = ["Admin", "librarian", "Guest"];
+
+  const roles = ["Admin", "User", "Guest"];
   let completed = 0;
   roles.forEach((role) => {
-    db.connection.query("INSERT INTO role (role_name) VALUES (?)", [role], (err) => {
-      if (err) return callback(err);
-      if (++completed === roles.length) {
-        console.log("Roles inserted.");
-        callback();
+    db.connection.query(
+      "INSERT INTO role (role_name) VALUES (?)",
+      [role],
+      (err) => {
+        if (err) return callback(err);
+        if (++completed === roles.length) {
+          console.log("Roles inserted.");
+          callback();
+        }
       }
-    });
+    );
   });
 };
 
@@ -20,10 +25,13 @@ const insertAdherents = (num, callback) => {
   for (let i = 0; i < num; i++) {
     const firstname = faker.faker.person.firstName();
     const lastname = faker.faker.person.lastName();
-    const role_id = 3;
+    const email = faker.faker.internet.email();
+    const password = faker.faker.internet.password();
+    const role_id = Math.floor(Math.random() * 3) + 1;
     db.connection.execute(
-      "INSERT INTO adherent (firstname, lastname, role_id) VALUES (?, ?, ?)",
-      [firstname, lastname, role_id],
+      "INSERT INTO adherent (firstname, lastname, email, password, role_id) VALUES (?, ?, ?, ?, ?)",
+      [firstname, lastname, email, password, role_id],
+
       (err) => {
         if (err) return callback(err);
         if (++completed === num) {
@@ -58,13 +66,18 @@ const insertFormats = (callback) => {
   const formats = ["Hardcover", "Paperback", "E-book"];
   let completed = 0;
   formats.forEach((format) => {
-    db.connection.query("INSERT INTO format (format_name) VALUES (?)", [format], (err) => {
-      if (err) return callback(err);
-      if (++completed === formats.length) {
-        console.log("Formats inserted.");
-        callback();
+
+    db.connection.query(
+      "INSERT INTO format (format_name) VALUES (?)",
+      [format],
+      (err) => {
+        if (err) return callback(err);
+        if (++completed === formats.length) {
+          console.log("Formats inserted.");
+          callback();
+        }
       }
-    });
+    );
   });
 };
 
@@ -144,7 +157,16 @@ const insertOuvrages = (num, callback) => {
 
     db.connection.execute(
       "INSERT INTO ouvrage (title, language, category_id, author_id, adherent_id, pret_id, reserve_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
-      [title, language, category_id, author_id, adherent_id, pret_id, reserve_id],
+
+      [
+        title,
+        language,
+        category_id,
+        author_id,
+        adherent_id,
+        pret_id,
+        reserve_id,
+      ],
       (err) => {
         if (err) return callback(err);
         if (++completed === num) {
@@ -176,11 +198,13 @@ const populateDatabase = () => {
               if (err) return console.error("Error populating prets:", err);
 
               insertReserves(100, (err) => {
-                if (err) return console.error("Error populating reserves:", err);
+
+                if (err)
+                  return console.error("Error populating reserves:", err);
 
                 insertOuvrages(300, (err) => {
-                  if (err) return console.error("Error populating ouvrages:", err);
-                  
+                  if (err)
+                    return console.error("Error populating ouvrages:", err);
                   db.stop();
                 });
               });

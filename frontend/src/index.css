@@ -1,16 +1,11 @@
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-
-
-
-
-
-
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
+:root {
+  background-color: #616161;
 
 }
