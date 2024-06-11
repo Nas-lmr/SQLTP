@@ -4,12 +4,6 @@ const jwt = require("jsonwebtoken");
 
 const Adherent = new AdherentModel(db);
 
-// une fonction pour générer les tokens
-
-const generateToken = (payload) => {
-  return jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "1h" });
-};
-
 // get all the users
 const getAllAdherents = (req, res) => {
   Adherent.readAll()
@@ -28,8 +22,44 @@ const getAdherentById = (req, res) => {
 
   Adherent.read(id)
     .then((user) => {
-      const token = generateToken({ user });
-      res.json({ user, token });
+      res.json(user);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+};
+const createAdherent = (req, res) => {
+  const { firstname, lastname, role_id } = req.body;
+
+  Adherent.create({firstname, lastname, role_id})
+    .then((Adh) => {
+      res.json(Adh);
+    })
+    .catch((err) => console.error(err));
+};
+
+// update adherent
+
+const updateAdherent = (req, res) => {
+  const id = parseInt(req.params.id);
+  const { firstname, lastname, role_id } = req.body;
+  Adherent.update(firstname, lastname, role_id, id)
+    .then((updatedAdh) => {
+      res.json(updatedAdh);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+};
+
+/* delete adherent */
+
+const deleteAdherent = (req, res) => {
+  const id = parseInt(req.params.id);
+
+  Adherent.delete(id)
+    .then((deleteOne) => {
+      res.json(deleteOne);
     })
     .catch((err) => {
       console.error(err);
@@ -72,6 +102,8 @@ module.exports = {
   getAllAdherents,
   getAdherentById,
   createAdherent,
+
   login,
   logout,
+
 };

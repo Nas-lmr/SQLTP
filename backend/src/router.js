@@ -4,6 +4,7 @@ const router = express.Router();
 
 const ouvrage = require("./controllers/ouvrageControllers");
 const adherent = require("./controllers/adherentControllers");
+
 const verifyToken = require("../middleware/authJWT");
 const isAdmin = require("../middleware/isAdmin");
 
@@ -21,6 +22,7 @@ router.post("/login", adherent.login);
 router.post("/logout", adherent.logout);
 router.post("/register", adherent.createAdherent);
 
+
 //***********ADMIN ROUTES***************//
 
 //***************OUVRAGES**********//
@@ -31,5 +33,6 @@ router.delete("/ouvrage/:id", verifyToken, isAdmin, ouvrage.deleteOuvrage);
 //*********ADHERENT*******//
 router.get("/adherent", verifyToken, isAdmin, adherent.getAllAdherents);
 router.get("/adherent/:id", verifyToken, isAdmin, adherent.getAdherentById);
+
 
 module.exports = router;

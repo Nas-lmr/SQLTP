@@ -44,6 +44,7 @@
 //     });
 //   }
 
+
 //   /* login  */
 //   login(email, password) {
 //     return new Promise((resolve, reject) => {
@@ -58,6 +59,7 @@
 //         if (result.length === 0) {
 //           return reject(new Error("User not found"));
 //         }
+
 
 //         const adherent = result[0];
 //         bcrypt.compare(password, adherent.password, (err, passwordMatch) => {
@@ -74,6 +76,7 @@
 //       });
 //     });
 //   }
+
 
 //   /* get all the user */
 //   readAll() {

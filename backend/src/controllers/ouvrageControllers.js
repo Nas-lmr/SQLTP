@@ -34,18 +34,20 @@ const createNewOuvrage = (req, res) => {
     language,
     category_id,
     author_id,
-    user_id,
+    adherent_id,
     pret_id,
     reserve_id,
+    coverbook,
   } = req.body;
   Ouvrage.create({
     title,
     language,
     category_id,
     author_id,
-    user_id,
+    adherent_id,
     pret_id,
     reserve_id,
+    coverbook,
   })
     .then((newOuvrage) => {
       res.json(newOuvrage);
@@ -64,18 +66,21 @@ const updateOuvrage = (req, res) => {
     language,
     category_id,
     author_id,
-    user_id,
+    adherent_id,
     pret_id,
     reserve_id,
+    coverbook,
   } = req.body;
+  console.log(req.body);
   Ouvrage.update(
     title,
     language,
     category_id,
     author_id,
-    user_id,
+    adherent_id,
     pret_id,
     reserve_id,
+    coverbook,
     id
   )
     .then((updatedOuvrage) => {

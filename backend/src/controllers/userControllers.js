@@ -6,7 +6,7 @@ const User = new UserModel(db);
 
 // une fonction pour générer les tokens
 
-const generateToken = (payload) => {
+const generateToken = (payload = {}) => {
   return jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "1h" });
 };
 
@@ -28,8 +28,7 @@ const getUserById = (req, res) => {
 
   User.read(id)
     .then((user) => {
-      const token = generateToken({ user });
-      res.json({ user, token });
+      res.json(user);
     })
     .catch((err) => {
       console.error(err);
@@ -49,6 +48,34 @@ const createUser = (req, res) => {
     });
 };
 
+/* update user  */
+const updateUser = (req, res) => {
+  const id = parseInt(req.params.id);
+  const { email, password, adherent_id } = req.body;
+
+  User.update(email, password, adherent_id, id)
+    .then((user) => {
+      res.json(user);
+    })
+    .catch((err) => console.error(err));
+};
+
+/* delete user  */
+
+const deletUser = (req, res) => {
+  const id = parseInt(req.params.id);
+
+  if (req.user.userID === id || req.user.userRole === "Admin") {
+    User.delete(id)
+      .then((user) => {
+        res.status(200).json({ message: " you have deleted ", user });
+      })
+      .catch((err) => console.error(err));
+  } else {
+    res.status(401).json({ message: "you can't delete this user" });
+  }
+};
+
 /* login user  */
 
 const login = (req, res) => {
@@ -60,7 +87,7 @@ const login = (req, res) => {
         return res.status(404).json({ error: "User not found" });
       }
 
-      const token = generateToken({ id: user.id });
+      const token = generateToken(user);
       res.json({ user: email, token });
     })
     .catch((err) => {
@@ -74,4 +101,6 @@ module.exports = {
   getUserById,
   createUser,
   login,
+  updateUser,
+  deletUser,
 };

@@ -2,6 +2,7 @@ const faker = require("@faker-js/faker");
 const { db } = require("./database/client");
 
 const insertRoles = (callback) => {
+
   const roles = ["Admin", "User", "Guest"];
   let completed = 0;
   roles.forEach((role) => {
@@ -30,6 +31,7 @@ const insertAdherents = (num, callback) => {
     db.connection.execute(
       "INSERT INTO adherent (firstname, lastname, email, password, role_id) VALUES (?, ?, ?, ?, ?)",
       [firstname, lastname, email, password, role_id],
+
       (err) => {
         if (err) return callback(err);
         if (++completed === num) {
@@ -64,6 +66,7 @@ const insertFormats = (callback) => {
   const formats = ["Hardcover", "Paperback", "E-book"];
   let completed = 0;
   formats.forEach((format) => {
+
     db.connection.query(
       "INSERT INTO format (format_name) VALUES (?)",
       [format],
@@ -139,16 +142,8 @@ const insertReserves = (num, callback) => {
 
 const insertOuvrages = (num, callback) => {
   const languages = [
-    "English",
-    "Spanish",
-    "French",
-    "German",
-    "Chinese",
-    "Japanese",
-    "Korean",
-    "Italian",
-    "Portuguese",
-    "Russian",
+    "English", "Spanish", "French", "German", "Chinese", "Japanese",
+    "Korean", "Italian", "Portuguese", "Russian"
   ];
   let completed = 0;
   for (let i = 0; i < num; i++) {
@@ -162,6 +157,7 @@ const insertOuvrages = (num, callback) => {
 
     db.connection.execute(
       "INSERT INTO ouvrage (title, language, category_id, author_id, adherent_id, pret_id, reserve_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
+
       [
         title,
         language,
@@ -202,13 +198,13 @@ const populateDatabase = () => {
               if (err) return console.error("Error populating prets:", err);
 
               insertReserves(100, (err) => {
+
                 if (err)
                   return console.error("Error populating reserves:", err);
 
                 insertOuvrages(300, (err) => {
                   if (err)
                     return console.error("Error populating ouvrages:", err);
-
                   db.stop();
                 });
               });

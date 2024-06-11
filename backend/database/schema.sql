@@ -54,7 +54,7 @@ CREATE TABLE category (
     level VARCHAR(50),
     discipline VARCHAR(100),
     format_id INT,
-    FOREIGN KEY (format_id) REFERENCES format(id),
+    FOREIGN KEY (format_id) REFERENCES format(id)ON DELETE CASCADE,
     PRIMARY KEY (id) 
 );
 
@@ -80,5 +80,6 @@ CREATE TABLE ouvrage (
     FOREIGN KEY (adherent_id) REFERENCES adherent(id),
     FOREIGN KEY (pret_id) REFERENCES pret(id),
     FOREIGN KEY (reserve_id) REFERENCES reserve(id),
+
     PRIMARY KEY (id) 
 );

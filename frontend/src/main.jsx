@@ -1,3 +1,4 @@
+
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { UserContextProvider } from "./contexts/userContext.jsx";
@@ -41,4 +42,5 @@ root.render(
       <RouterProvider router={router} />
     </UserContextProvider>
   </React.StrictMode>
+
 );

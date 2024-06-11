@@ -14,9 +14,9 @@ const verifyToken = async (req, res, next) => {
     if (err) {
       return res.status(401).json({ error: "Request is not Authorized" });
     }
+
     req.user = decoded;
     console.log(decoded,"AFTER");
-
     next();
   });
 };
