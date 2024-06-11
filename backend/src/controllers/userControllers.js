@@ -23,7 +23,7 @@ const getAllUsers = (req, res) => {
 
 // get one user by id
 
-getUserById = (req, res) => {
+const getUserById = (req, res) => {
   const id = parseInt(req.params.id);
 
   User.read(id)
@@ -39,8 +39,8 @@ getUserById = (req, res) => {
 /* create a user  */
 
 const createUser = (req, res) => {
-  const { email, password, adherent_id } = req.body;
-  User.create({ email, password, adherent_id })
+  const { email, password} = req.body;
+  User.create({ email, password})
     .then((user) => {
       res.json({ user });
     })

@@ -4,30 +4,32 @@ const router = express.Router();
 
 const ouvrage = require("./controllers/ouvrageControllers");
 const adherent = require("./controllers/adherentControllers");
-const user = require("./controllers/userControllers");
-const userMiddleware = require("../middleware/authJWT");
+const verifyToken = require("../middleware/authJWT");
+const isAdmin = require("../middleware/isAdmin");
+
+//***********ADHERENT ROUTES***************//
 /* basic CRUD */
 router.get("/ouvrage", ouvrage.getAllOuvrage);
 router.get("/ouvrage/:id", ouvrage.getOuvrageById);
-router.post("/ouvrage", ouvrage.createNewOuvrage);
-router.put("/ouvrage/:id", ouvrage.updateOuvrage);
-router.delete("/ouvrage/:id", ouvrage.deleteOuvrage);
 
 /* condition  CRUD */
 
 router.get("/filteredouvrage", ouvrage.getFiltredOuvrage);
 router.get("/filteredouvrage/:id", ouvrage.getFiltredOuvrageById);
 
-/* adherent router  */
+router.post("/login", adherent.login);
+router.post("/logout", adherent.logout);
+router.post("/register", adherent.createAdherent);
 
-router.get("/adherent", adherent.getAllAdherents);
-router.get("/adherent/:id", adherent.getAdherentById);
+//***********ADMIN ROUTES***************//
 
-/* user  */
+//***************OUVRAGES**********//
+router.post("/ouvrage", verifyToken, isAdmin, ouvrage.createNewOuvrage);
+router.put("/ouvrage/:id", verifyToken, isAdmin, ouvrage.updateOuvrage);
+router.delete("/ouvrage/:id", verifyToken, isAdmin, ouvrage.deleteOuvrage);
 
-router.get("/user", user.getAllUsers);
-router.get("/user/:id", user.getUserById);
-router.post("/login", user.login);
-router.post("/user", userMiddleware, user.createUser);
+//*********ADHERENT*******//
+router.get("/adherent", verifyToken, isAdmin, adherent.getAllAdherents);
+router.get("/adherent/:id", verifyToken, isAdmin, adherent.getAdherentById);
 
 module.exports = router;

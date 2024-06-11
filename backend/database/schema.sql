@@ -12,19 +12,14 @@ CREATE TABLE adherent (
     id INT NOT NULL AUTO_INCREMENT,
     firstname VARCHAR(100),
     lastname VARCHAR (100),
-    role_id INT,
-    FOREIGN KEY (role_id) REFERENCES role(id),
-    PRIMARY KEY (id) 
-);
-
-CREATE TABLE user (
-    id INT NOT NULL AUTO_INCREMENT,
     email VARCHAR(100),
     password VARCHAR (100),
-    adherent_id INT,
-    FOREIGN KEY (adherent_id) REFERENCES adherent(id),
-    PRIMARY KEY (id) 
+    role_id INT DEFAULT 3,
+    PRIMARY KEY (id), 
+    UNIQUE(email),
+    FOREIGN KEY (role_id) REFERENCES role(id)
 );
+
 
 /* pret table */
 CREATE TABLE pret (
@@ -77,12 +72,12 @@ CREATE TABLE ouvrage (
     language VARCHAR(100),
     category_id INT,
     author_id INT,
-    user_id INT,
+    adherent_id INT,
     pret_id INT,
     reserve_id INT,
     FOREIGN KEY (category_id) REFERENCES category(id),
     FOREIGN KEY (author_id) REFERENCES author(id),
-    FOREIGN KEY (user_id) REFERENCES user(id),
+    FOREIGN KEY (adherent_id) REFERENCES adherent(id),
     FOREIGN KEY (pret_id) REFERENCES pret(id),
     FOREIGN KEY (reserve_id) REFERENCES reserve(id),
     PRIMARY KEY (id) 
