@@ -6,7 +6,7 @@ class OuvrageModel {
   /* create a ouvrage  */
   create(ouvrage) {
     return new Promise((resolve, reject) => {
-      const query = `INSERT INTO ouvrage (title, language, category_id, author_id, user_id, pret_id, reserve_id) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+      const query = `INSERT INTO ouvrage (title, language, category_id, author_id, adherent_id, pret_id, reserve_id,coverbook) VALUES (?, ?, ?, ?, ?, ?, ?,?)`;
       const values = [
         ouvrage.title,
         ouvrage.language,
@@ -15,7 +15,9 @@ class OuvrageModel {
         ouvrage.user_id,
         ouvrage.pret_id,
         ouvrage.reserve_id,
+        ouvrage.coverbook,
       ];
+      console.log(values);
       this.connection.execute(query, values, (error, result) => {
         if (error) {
           return reject(error);
@@ -43,7 +45,7 @@ class OuvrageModel {
   /* get all the ouvrage */
   readAll() {
     return new Promise((resolve, reject) => {
-      const query = ` SELECT * FROM ouvrage `;
+      const query = ` SELECT * FROM ouvrage  `;
       this.connection.execute(query, (error, result) => {
         if (error) {
           reject(error);
@@ -63,10 +65,11 @@ class OuvrageModel {
     user_id,
     pret_id,
     reserve_id,
+    coverbook,
     id
   ) {
     return new Promise((resolve, reject) => {
-      const query = `UPDATE ouvrage SET title =?,language=?, category_id =?, author_id =?,user_id=?,pret_id=?,reserve_id=? WHERE id =?`;
+      const query = `UPDATE ouvrage SET title =?,language=?, category_id =?, author_id =?,adherent_id=?,pret_id=?,reserve_id=?,coverbook=? WHERE id =?`;
       const values = [
         title,
         language,
@@ -75,6 +78,7 @@ class OuvrageModel {
         user_id,
         pret_id,
         reserve_id,
+        coverbook,
         id,
       ];
       this.connection.execute(query, values, (error, result) => {

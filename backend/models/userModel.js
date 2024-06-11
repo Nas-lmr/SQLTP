@@ -47,7 +47,12 @@ class UserModel {
   /* login  */
   login(email, password) {
     return new Promise((resolve, reject) => {
-      const query = `SELECT * FROM user WHERE email = ? `;
+      const query = `SELECT user.id,user.email,user.password, role.role_name
+      FROM user
+      JOIN adherent
+      ON user.adherent_id = adherent.id
+      JOIN role ON adherent.role_id = role.id
+       WHERE email = ? `;
       const values = [email];
 
       this.connection.execute(query, values, (error, result) => {
@@ -60,6 +65,7 @@ class UserModel {
         }
 
         const user = result[0];
+
         bcrypt.compare(password, user.password, (err, passwordMatch) => {
           if (err) {
             return reject(err);
@@ -68,8 +74,13 @@ class UserModel {
           if (!passwordMatch) {
             return reject(new Error("Incorrect password"));
           }
-
-          resolve(user);
+          resolve({
+            user: {
+              userEmail: user.email,
+              userId: user.id,
+              userRole: user.role_name,
+            },
+          });
         });
       });
     });

@@ -11,14 +11,14 @@ class Database {
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-    });
+    })
     this.connection.connect((error) => {
       if (error) {
         console.error("Error connecting to the database:", error);
       } else {
         console.info("Connected to the database:", process.env.DB_NAME);
       }
-    });
+    })
   }
 
   stop() {

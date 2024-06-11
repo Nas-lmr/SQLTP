@@ -12,8 +12,18 @@ CREATE TABLE adherent (
     id INT NOT NULL AUTO_INCREMENT,
     firstname VARCHAR(100),
     lastname VARCHAR (100),
-    role_id INT,
-    FOREIGN KEY (role_id) REFERENCES role(id),
+    role_id INT DEFAULT 3,
+    FOREIGN KEY (role_id) REFERENCES role(id)ON DELETE CASCADE,
+    PRIMARY KEY (id) 
+);
+
+/* user table */
+CREATE TABLE user (
+    id INT NOT NULL AUTO_INCREMENT,
+    email VARCHAR(100),
+    password VARCHAR (100),
+    adherent_id INT,
+    FOREIGN KEY (adherent_id) REFERENCES adherent(id)ON DELETE CASCADE,
     PRIMARY KEY (id) 
 );
 
@@ -50,7 +60,7 @@ CREATE TABLE category (
     level VARCHAR(50),
     discipline VARCHAR(100),
     format_id INT,
-    FOREIGN KEY (format_id) REFERENCES format(id),
+    FOREIGN KEY (format_id) REFERENCES format(id)ON DELETE CASCADE,
     PRIMARY KEY (id) 
 );
 
@@ -68,13 +78,13 @@ CREATE TABLE ouvrage (
     language VARCHAR(100),
     category_id INT,
     author_id INT,
-    user_id INT,
+    adherent_id INT,
     pret_id INT,
     reserve_id INT,
-    FOREIGN KEY (category_id) REFERENCES category(id),
-    FOREIGN KEY (author_id) REFERENCES author(id),
-    FOREIGN KEY (user_id) REFERENCES user(id),
-    FOREIGN KEY (pret_id) REFERENCES pret(id),
-    FOREIGN KEY (reserve_id) REFERENCES reserve(id),
+    FOREIGN KEY (category_id) REFERENCES category(id) ON DELETE CASCADE,
+    FOREIGN KEY (author_id) REFERENCES author(id)ON DELETE CASCADE,
+    FOREIGN KEY (adherent_id) REFERENCES adherent(id)ON DELETE CASCADE,
+    FOREIGN KEY (pret_id) REFERENCES pret(id)ON DELETE CASCADE,
+    FOREIGN KEY (reserve_id) REFERENCES reserve(id)ON DELETE CASCADE,
     PRIMARY KEY (id) 
 );

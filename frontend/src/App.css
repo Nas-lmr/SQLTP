@@ -1,0 +1,195 @@
+#root {
+  width: auto;
+  height: auto;
+  overflow-y: auto;
+  padding-left: 30px;
+}
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.main {
+  width: 95vw;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.home {
+  background-color: aqua;
+  font-size: 5em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: rgb(1, 10, 18);
+}
+.app {
+  margin: auto;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  height: 5em;
+  background-color: rgb(174, 174, 227);
+  margin-top: 10px;
+  color: black;
+}
+
+.nav a {
+  list-style: none;
+  font-size: 1em;
+  padding: 10px;
+  text-decoration: none;
+  color: rgb(7, 4, 24);
+  margin-left: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+}
+.nav-menu {
+  margin-right: 1em;
+}
+.nav a:hover {
+  color: white;
+  background: blue;
+  border-radius: 20px;
+}
+.signup {
+  display: flex;
+  flex-direction: column;
+  width: 280px;
+  min-height: 300px;
+  background-color: whitesmoke;
+  padding: 0px 60px;
+  border-radius: 10px;
+  margin-top: 10em;
+}
+
+.signup h1 {
+  margin-bottom: 1em;
+  text-align: center;
+}
+
+.signup input {
+  padding: 15px;
+  margin-bottom: 5px;
+  margin-top: 10px;
+  border-radius: 5px;
+  border: 2px solid gray;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+.signup label {
+  font-size: 15px;
+  color: gray;
+  margin-left: 5px;
+
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+.signup button {
+  width: 100%;
+  height: 50px;
+  padding: 10px;
+  border: none;
+  background-color: rebeccapurple;
+  font-weight: bold;
+  font-size: 15px;
+  border-radius: 5px;
+  margin-top: 15px;
+  margin-bottom: 30px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.books {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 95vw;
+  height: auto;
+  overflow: hidden;
+  background-color: #f7f8fc;
+  font-family: "Roboto", sans-serif;
+  color: #10182f;
+}
+.container {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+.card {
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 0.75em;
+  width: auto;
+  height: 30em;
+}
+
+.booktitle {
+  font-size: 1.5rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: bolder;
+  margin: 5px;
+  color: rgb(54, 52, 52);
+  text-align: left;
+  margin-top: 1.5em;
+}
+.bookprice {
+  font-size: 0.75rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: bolder;
+  color: rgb(54, 52, 52);
+}
+
+.button {
+  margin-right: 10px;
+}
+.bookimg {
+  width: 18rem;
+  height: 20rem;
+  margin: 10px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  transition: transform 0.5s ease;
+}
+
+.bookimg:hover {
+  transform: scale(1.2);
+}
+
+.bookimg:hover + .bookprice {
+  color: red;
+}
+
+@media screen and (max-width: 900px) {
+  .container {
+    margin-top: auto;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .container {
+    margin-top: auto;
+  }
+  .bookimg {
+    width: 8rem;
+    height: 11rem;
+    margin: auto;
+  }
+  .card {
+    width: 10rem;
+    height: 20rem;
+  }
+}
